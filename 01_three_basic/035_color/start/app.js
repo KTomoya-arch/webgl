@@ -23,8 +23,10 @@ const geometry = new THREE.TorusGeometry(5, 1, 20, 20);
 const material = new THREE.MeshBasicMaterial({
   color: 0xff0000,
   transparent: true,
-  opacity: .5,
+  opacity: 0.5,
 });
+// material.color = new THREE.Color(0xffffff);
+// material.color.set(0x0000ff);
 
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
