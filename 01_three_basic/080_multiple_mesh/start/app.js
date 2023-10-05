@@ -17,16 +17,16 @@ async function init() {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-  
+
   const geometry1 = new THREE.BoxGeometry(10, 10, 10);
   const geometry2 = new THREE.PlaneGeometry(20, 20);
   const geometry3 = new THREE.TorusGeometry(10, 3, 200, 20);
-  
+
   const texLoader = new THREE.TextureLoader();
   // const texture1 = await texLoader.loadAsync("/img/output1.jpg");
   // const texture2 = await texLoader.loadAsync("/img/output2.jpg");
   const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  
+
   const mesh = new THREE.Mesh(geometry1, material);
   scene.add(mesh);
 
@@ -36,7 +36,7 @@ async function init() {
   camera.position.z = 30;
 
   const control = new OrbitControls(camera, renderer.domElement);
-    
+
   let i = 0;
   function animate() {
     requestAnimationFrame(animate);

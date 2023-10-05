@@ -43,7 +43,20 @@ async function init() {
 
     // 回転
     // mesh.rotateX(-0.01);
-    mesh.rotateY(-0.01);
+    // mesh.rotateY(-0.01);
+
+    // 並行移動
+    // mesh.position.x += 0.01;
+    // mesh.position.y += 0.01;
+    // mesh.position.z += 0.01;
+    // translateはあまりパフォーマンスが良くない
+    // geometry.translate(0.01, 0.01, 0.01);
+    // mesh.position.set(10, 0, 0);
+    // スケール
+    mesh.scale.x += 0.002;
+    mesh.scale.y += 0.002;
+    geometry.scale(2, 1, 1);
+
     control.update();
 
     renderer.render(scene, camera);
