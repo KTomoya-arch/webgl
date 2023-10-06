@@ -1,7 +1,3 @@
-/**
- * Three.js
- * https://threejs.org/
- */
 import * as THREE from "three";
 
 init();
@@ -18,31 +14,49 @@ async function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // const geometry = new THREE.BoxGeometry();
-  const geometry = new THREE.PlaneGeometry(20, 10);
-  // const geometry = new THREE.SphereGeometry();
-  // const geometry = new THREE.TorusGeometry(10, 3, 200, 20);
-  const textLoader = new THREE.TextureLoader();
-  const texture1 = await textLoader.loadAsync("/img/output1.jpg");
-  const texture2 = await textLoader.loadAsync("/img/output2.jpg");
-  const material = new THREE.MeshBasicMaterial({ map: texture2 });
-  setTimeout(() => {
-    material.map = texture1;
-  }, 2000);
+  // 立方体のジオメトリを作成
+  const geometry = new THREE.BoxGeometry(5, 5, 5);
+
+  // テクスチャの設定
+  const textureLoader = new THREE.TextureLoader();
+  const texture = await textureLoader.loadAsync("/img/header_spla.jpeg");
+
+  // テクスチャフィルタリングを設定して画質向上
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+
+  const material = new THREE.MeshBasicMaterial({ map: texture });
   const cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
-  camera.position.z = 30;
+  camera.position.z = 15;
 
-  let i = 0;
+  // ライトを追加
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(10, 10, 10);
+  scene.add(light);
+
+  let rotationSpeed = 0.01;
+
+  // アニメーションの中で回転と色の変化を行う
   function animate() {
     requestAnimationFrame(animate);
-    // console.log(i++);
-    cube.rotation.x = cube.rotation.x + 0.01;
-    cube.rotation.y += 0.01;
+
+    // 立方体を回転させる
+    cube.rotation.x += rotationSpeed;
+    cube.rotation.y += rotationSpeed;
+
+    // パーティクルの色をランダムに変更
+    const randomColor = Math.random() * 0xffffff;
+    cube.material.color.set(randomColor);
 
     renderer.render(scene, camera);
   }
 
   animate();
+
+  // クリックした時に回転速度を変更
+  document.addEventListener("click", () => {
+    rotationSpeed += 0.01;
+  });
 }

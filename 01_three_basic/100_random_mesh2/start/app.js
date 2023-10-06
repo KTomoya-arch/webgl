@@ -14,8 +14,11 @@ async function init() {
     1000
   );
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+  });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0xf3f3f3);
   document.body.appendChild(renderer.domElement);
 
   function mapRand(min, max, isInt = false) {
@@ -24,27 +27,44 @@ async function init() {
     return rand;
   }
 
-  
+  const meshes = [];
+  MESH_NUM = 50;
+  POS_RANGE = 100;
+  MAX_SCALE = 1.5;
   function randomMesh() {
     const geometries = [
       new THREE.BoxGeometry(10, 10, 10),
       new THREE.PlaneGeometry(20, 20),
-      new THREE.TorusGeometry(10, 3, 200, 20)
+      new THREE.TorusGeometry(10, 3, 200, 20),
     ];
     const color = new THREE.Color(
       mapRand(0.7, 1),
       mapRand(0.7, 1),
       mapRand(0.7, 1)
-      );
+    );
+    const pos = {
+      x: mapRand(-POS_RANGE, POS_RANGE),
+      y: mapRand(-POS_RANGE, POS_RANGE),
+      z: mapRand(-POS_RANGE, POS_RANGE),
+    };
+
     const material = new THREE.MeshBasicMaterial({ color });
     const gIndex = mapRand(0, geometries.length - 1, true);
     const mesh = new THREE.Mesh(geometries[gIndex], material);
+    mesh.position.set(pos.x, pos.y, pos.z);
+    const scale = mapRand(1, MAX_SCALE);
+    mesh.geometry.scale(scale, scale, scale);
     return mesh;
   }
 
+  for (let i = 0; i < MESH_NUM; i++) {
+    const mesh = randomMesh();
+    meshes.push(mesh);
+  }
+
   const mesh1 = randomMesh();
-  
-  scene.add(mesh1);
+
+  scene.add(...meshes);
 
   const axis = new THREE.AxesHelper(20);
   scene.add(axis);
@@ -52,7 +72,7 @@ async function init() {
   camera.position.z = 30;
 
   const control = new OrbitControls(camera, renderer.domElement);
-    
+
   let i = 0;
   function animate() {
     requestAnimationFrame(animate);

@@ -25,10 +25,20 @@ async function init() {
   const texLoader = new THREE.TextureLoader();
   // const texture1 = await texLoader.loadAsync("/img/output1.jpg");
   // const texture2 = await texLoader.loadAsync("/img/output2.jpg");
-  const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
-  const mesh = new THREE.Mesh(geometry1, material);
-  scene.add(mesh);
+  const material1 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  const material2 = material1.clone();
+  material2.color = new THREE.Color(0x00ff00);
+
+  const material3 = material1.clone();
+  material3.color = new THREE.Color(0x0000ff);
+
+  const mesh1 = new THREE.Mesh(geometry1, material1);
+  mesh1.position.x -= 25;
+  const mesh2 = new THREE.Mesh(geometry2, material2);
+  mesh2.position.x += 25;
+  const mesh3 = new THREE.Mesh(geometry3, material3);
+  scene.add(mesh1, mesh2, mesh3);
 
   const axis = new THREE.AxesHelper(20);
   scene.add(axis);
@@ -42,10 +52,11 @@ async function init() {
     requestAnimationFrame(animate);
 
     // 回転
-    // mesh.rotation.x += 0.01;
-    // mesh.rotation.y += 0.01;
-    // mesh.rotateX(0.01);
-
+    mesh1.rotation.x += 0.01;
+    mesh1.rotation.y += 0.01;
+    // mesh1.rotateX(0.01);
+    mesh2.rotation.z += 0.01;
+    mesh3.rotation.y += 0.01;
     // 平行移動
     // mesh.position.x += 0.02;
     // mesh.position.y += 0.02;
