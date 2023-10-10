@@ -15,7 +15,7 @@ async function init() {
   );
 
   const renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0xf3f3f3);
@@ -47,11 +47,11 @@ async function init() {
       y: mapRand(-POS_RANGE, POS_RANGE),
       z: mapRand(-POS_RANGE, POS_RANGE),
     };
-    const material = new THREE.MeshBasicMaterial({ color });
+    const material = new THREE.MeshLambertMaterial({ color });
     const gIndex = mapRand(0, geometries.length - 1, true);
     const mesh = new THREE.Mesh(geometries[gIndex], material);
     mesh.position.set(pos.x, pos.y, pos.z);
-    const scale = mapRand(1, MAX_SCALE)
+    const scale = mapRand(1, MAX_SCALE);
     mesh.geometry.scale(scale, scale, scale);
     return mesh;
   }
